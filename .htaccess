@@ -1,0 +1,27 @@
+Options -Indexes
+RewriteEngine On
+
+# Allow CORS preflight
+RewriteCond %{REQUEST_METHOD} OPTIONS
+RewriteRule ^(.*)$ $1 [R=200,L]
+
+# Remove trailing slash
+RewriteRule ^(.*)/$ /$1 [L,R=301]
+
+# Route API calls
+RewriteRule ^api/auth(.*)$          backend/api/auth.php$1 [QSA,L]
+RewriteRule ^api/users(.*)$         backend/api/users.php$1 [QSA,L]
+RewriteRule ^api/attendance(.*)$    backend/api/attendance.php$1 [QSA,L]
+RewriteRule ^api/assignments(.*)$   backend/api/assignments.php$1 [QSA,L]
+RewriteRule ^api/grades(.*)$        backend/api/grades.php$1 [QSA,L]
+RewriteRule ^api/notifications(.*)$ backend/api/notifications.php$1 [QSA,L]
+RewriteRule ^api/dashboard(.*)$     backend/api/dashboard.php$1 [QSA,L]
+RewriteRule ^api/quizzes(.*)$       backend/api/quizzes.php$1 [QSA,L]
+RewriteRule ^api/courses(.*)$       backend/api/courses.php$1 [QSA,L]
+RewriteRule ^api/books(.*)$         backend/api/books.php$1 [QSA,L]
+RewriteRule ^api/academic(.*)$      backend/api/academic.php$1 [QSA,L]
+
+# Frontend SPA fallback
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^ frontend/dist/index.html [L]
